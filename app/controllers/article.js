@@ -5,15 +5,19 @@ class AtricleCtl {
         const { per_page = 10 } = ctx.query;
         const page = Math.max(ctx.query.page * 1, 1) - 1;
         const perPage = Math.max(per_page * 1, 1);
+        const params = { title: new RegExp(ctx.query.q) };
+        if (ctx.query.type) {
+            params.type = ctx.query.type
+        }
         ctx.body = await Article
-            .find({ title: new RegExp(ctx.query.q) })
+            .find(params)
             .limit(perPage).skip(page * perPage);
     }
     async findById(ctx) {
         const article = await Article.findById(ctx.params.id).select('+content');
         if (!article) { ctx.throw(404, '文章不存在'); }
         ctx.body = article;
-      }
+    }
     async create(ctx) {
         ctx.verifyParams({
             title: { type: 'string', required: true },
