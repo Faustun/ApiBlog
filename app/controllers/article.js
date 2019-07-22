@@ -1,6 +1,4 @@
-const jwt = require('jsonwebtoken');
 const Article = require('../models/article');
-const { secret } = require('../config');
 
 class AtricleCtl {
     async find(ctx) {
@@ -12,19 +10,7 @@ class AtricleCtl {
             .limit(perPage).skip(page * perPage);
     }
     async findById(ctx) {
-        const { fields = '' } = ctx.query;
-        const selectFields = fields.split(';').filter(f => f).map(f => ' +' + f).join('');
-        const populateStr = fields.split(';').filter(f => f).map(f => {
-          if (f === 'employments') {
-            return 'employments.company employments.job';
-          }
-          if (f === 'educations') {
-            return 'educations.school educations.major';
-          }
-          return f;
-        }).join(' ');
-        const article = await Article.findById(ctx.params.id).select(selectFields)
-          .populate(populateStr);
+        const article = await Article.findById(ctx.params.id).select('+content');
         if (!article) { ctx.throw(404, '文章不存在'); }
         ctx.body = article;
       }

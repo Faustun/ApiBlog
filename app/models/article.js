@@ -7,7 +7,7 @@ const articleSchema = new Schema({
   title: { type: String, required: true },
   type: { type: String, required: true },
   cover: { type: String, required: true },
-  content: { type: String, required: true }
+  content: { type: String, required: true, select: false }
 }, { timestamps: true });
 
 module.exports = model('article', articleSchema);
