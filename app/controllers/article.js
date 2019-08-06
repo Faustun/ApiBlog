@@ -31,7 +31,7 @@ class AtricleCtl {
     async update(ctx) {
         ctx.verifyParams({
             title: { type: 'string', required: true },
-            cover: { type: 'string', required: true },
+            cover: { type: 'string' },
             type: { type: 'string', required: true },
             content: { type: 'string', required: true }
         });
