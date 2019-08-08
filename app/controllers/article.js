@@ -9,9 +9,11 @@ class AtricleCtl {
         if (ctx.query.type) {
             params.type = ctx.query.type
         }
-        ctx.body = await Article
+        const total = await Article.count();
+        const data = await Article
             .find(params)
             .limit(perPage).skip(page * perPage);
+        ctx.body = { data, total };
     }
     async findById(ctx) {
         const article = await Article.findById(ctx.params.id).select('+content');
@@ -21,7 +23,7 @@ class AtricleCtl {
     async create(ctx) {
         ctx.verifyParams({
             title: { type: 'string', required: true },
-            cover: { type: 'string', required: true },
+            cover: { type: 'string', required: false },
             type: { type: 'string', required: true },
             content: { type: 'string', required: true }
         });
@@ -31,7 +33,7 @@ class AtricleCtl {
     async update(ctx) {
         ctx.verifyParams({
             title: { type: 'string', required: true },
-            cover: { type: 'string' },
+            cover: { type: 'string', required: false },
             type: { type: 'string', required: true },
             content: { type: 'string', required: true }
         });
