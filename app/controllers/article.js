@@ -11,7 +11,7 @@ class AtricleCtl {
         }
         const total = await Article.count();
         const data = await Article
-            .find(params)
+            .find(params).sort({ _id: -1 })
             .limit(perPage).skip(page * perPage);
         ctx.body = { data, total };
     }
