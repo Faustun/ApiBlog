@@ -9,7 +9,7 @@ class AtricleCtl {
         if (ctx.query.type) {
             params.type = ctx.query.type
         }
-        const total = await Article.count();
+        const total = await Article.count(params);
         const data = await Article
             .find(params).sort({ _id: -1 })
             .limit(perPage).skip(page * perPage);
