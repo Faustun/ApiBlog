@@ -2,7 +2,7 @@ const Article = require('../models/article');
 
 class AtricleCtl {
     async find(ctx) {
-        const { per_page = 10 } = ctx.query;
+        const { per_page = 12 } = ctx.query;
         const page = Math.max(ctx.query.page * 1, 1) - 1;
         const perPage = Math.max(per_page * 1, 1);
         const params = { title: new RegExp(ctx.query.q) };
